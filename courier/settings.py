@@ -5,12 +5,11 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-temp-key'
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
 
 ALLOWED_HOSTS = [
-    'povalogistics.onrender.com',
-    'povalogistics.com',
-    'www.povalogistics.com',
+    'apexbitcargo-8o9m.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
@@ -69,6 +68,10 @@ DATABASES = {
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
     )
 }
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 
 
 AUTH_PASSWORD_VALIDATORS = []
